@@ -1,0 +1,38 @@
+AURORA CLI — RELEASE NOTES
+Internal Engineering Documentation
+
+v3.4.1 (current)
+  - Fixed: `aurora rollback` sometimes reported success before the
+    rollback had actually completed.
+  - Fixed: Homebrew formula now pulls from the correct internal tap.
+
+v3.4.0
+  - Added: `aurora deploy --cancel` to abort an in-flight deployment.
+  - Added: AURORA_NO_COLOR environment variable.
+  - Changed: Default deploy timeout increased from 180s to 300s.
+  - Deprecated: The `aurora push` alias for `aurora deploy` will be
+    removed in v4.0.
+
+v3.3.0
+  - Added: `aurora doctor` diagnostics command.
+  - Added: JSON output format via --output json (previously table only).
+  - Fixed: `aurora logs --follow` occasionally dropped the last few
+    lines on exit.
+
+v3.2.0
+  - Added: Two-approver requirement for production deploys without the
+    release-manager role.
+  - Security: Cached SSO tokens shortened from 24h to 12h validity.
+
+v3.1.0
+  - Initial support for Windows via WSL2.
+  - Added: `aurora projects list` command.
+
+v3.0.0 — First GA release
+  - Replaced the legacy "platform-deploy" bash scripts entirely.
+  - Introduced aurora.config.yaml as the standard configuration format.
+
+UPGRADE NOTES
+Versions more than two minor releases behind the latest may be rejected
+by the deployment API (see Installation Guide, section 4). Teams still
+on v2.x scripts should migrate before the v4.0 removal of `aurora push`.

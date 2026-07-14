@@ -1,0 +1,46 @@
+AURORA CLI — TROUBLESHOOTING & FAQ
+Internal Engineering Documentation
+Version 3.4
+
+Q: I get "Error 401: token expired" when running any command.
+A: Your cached SSO token has expired (tokens last 12 hours). Run
+   `aurora login` again to refresh it.
+
+Q: I get "Error 403: insufficient role for environment prod".
+A: Deploys to prod require the "release-manager" role, or a second
+   approver if you don't hold that role. Ask your team lead to add you
+   to the release-manager group in the access portal, or request an
+   approval from a teammate who has it.
+
+Q: "Error 409: deployment already in progress" when I run aurora deploy.
+A: Only one deployment can run per service/environment pair at a time.
+   Run `aurora status --project <p> --service <s> --env <e>` to see the
+   in-flight deployment, and wait for it to finish or run
+   `aurora deploy --cancel` to abort it.
+
+Q: The CLI hangs at "Waiting for health checks..." indefinitely.
+A: This usually means the new revision is failing its readiness probe.
+   Run `aurora logs --service <s> --env <e> --since 10m` to inspect the
+   startup logs. If the timeout (default 300s) is too short for your
+   service, increase it with --timeout.
+
+Q: aurora doctor reports "Network check failed: cannot reach API".
+A: You are most likely off the corporate VPN. Connect via the
+   "corp-remote" profile and re-run the check. See Installation Guide,
+   section 3, for VPN requirements.
+
+Q: I installed via Homebrew but `aurora --version` shows an old version.
+A: Homebrew installs can lag behind pip releases by a day or two. Run
+   `brew upgrade aurora-cli`, or switch to the pip installation method
+   for the newest releases.
+
+Q: Can I run two different major versions of Aurora CLI on the same
+   machine?
+A: Not cleanly via pip (only one version installs at a time). Use the
+   standalone binaries under different filenames (e.g. aurora-v2,
+   aurora-v3) if you need both.
+
+Q: Who do I contact if none of this helps?
+A: Post in #aurora-cli on Slack, or file a ticket in the PLATFORM-CLI
+   project. Include the output of `aurora doctor` and the exact command
+   that failed.

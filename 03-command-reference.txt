@@ -1,0 +1,45 @@
+AURORA CLI — COMMAND REFERENCE
+Internal Engineering Documentation
+Version 3.4
+
+aurora login
+    Authenticates via SSO and caches a token for 12 hours.
+    Flags: --sso-domain <domain>  (default: company.okta.com)
+
+aurora deploy
+    Deploys a service to an environment.
+    Required flags: --project, --service
+    Optional flags:
+      --env <dev|staging|prod>   default: dev
+      --version <tag>            default: latest built image
+      --wait / --no-wait         default: --wait
+      --timeout <seconds>        default: 300
+    Deploying to "prod" always requires a second approver unless the
+    caller has the "release-manager" role.
+
+aurora rollback
+    Reverts a service to its previous successful deployment.
+    Required flags: --project, --service, --env
+    Example:
+      aurora rollback --project my-project --service hello-world --env prod
+
+aurora status
+    Shows the current deployed version and health of a service.
+    Example:
+      aurora status --project my-project --service hello-world --env staging
+
+aurora logs
+    Streams recent logs for a service.
+    Flags: --since <duration> (e.g. 15m, 2h), --follow
+
+aurora projects list
+    Lists all projects the authenticated user can access.
+
+aurora doctor
+    Runs local environment diagnostics (see Installation Guide, section 6).
+
+GLOBAL FLAGS (available on every command)
+    --project <id>       Overrides default_project from the config file.
+    --output <format>     "table" or "json".
+    --quiet               Suppresses non-error output.
+    --config <path>       Use an alternate config file.

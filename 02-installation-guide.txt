@@ -1,0 +1,54 @@
+AURORA CLI — INSTALLATION & ENVIRONMENT SETUP
+Internal Engineering Documentation
+Version 3.4
+
+1. SUPPORTED INSTALLATION METHODS
+
+Method A — pip (recommended)
+    pip install aurora-cli --index-url https://pkg.internal.example.com/simple
+
+Method B — Homebrew (macOS only)
+    brew tap internal/aurora
+    brew install aurora-cli
+
+Method C — Standalone binary
+Download the binary matching your OS from the internal Releases page and
+place it on your PATH. Standalone binaries do not auto-update; you must
+re-download for new versions.
+
+2. ENVIRONMENT VARIABLES
+
+    AURORA_API_URL       Overrides the default deployment API endpoint.
+    AURORA_CONFIG_PATH   Overrides the default config file location.
+    AURORA_LOG_LEVEL      One of: DEBUG, INFO, WARN, ERROR. Default: INFO.
+    AURORA_NO_COLOR       Set to "1" to disable colored terminal output.
+
+3. PROXY / VPN NOTES
+
+Engineers on the corporate VPN do not need any proxy configuration — the
+internal package index and deployment API are reachable directly. If you
+are off-VPN, connect via the "corp-remote" VPN profile before running any
+aurora commands; the CLI does not work over the public internet.
+
+4. UPGRADING
+
+    pip install --upgrade aurora-cli
+
+Aurora CLI checks for a new version once every 24 hours and prints a
+notice if one is available. Upgrades are not automatic. We recommend
+staying within one minor version of the latest release; versions more
+than two minor releases behind may be rejected by the deployment API.
+
+5. UNINSTALLING
+
+    pip uninstall aurora-cli
+    rm -rf ~/.aurora
+
+6. VERIFYING YOUR SETUP
+
+Run the built-in doctor command to check your environment:
+    aurora doctor
+
+This checks: Python version, network reachability to the deployment API,
+valid SSO token, and config file syntax. A healthy setup prints
+"All checks passed (4/4)".

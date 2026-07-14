@@ -1,0 +1,53 @@
+AURORA CLI — GETTING STARTED GUIDE
+Internal Engineering Documentation
+Version 3.4
+
+1. WHAT IS AURORA CLI?
+
+Aurora CLI is the internal command-line tool used by the Platform team to
+deploy, inspect, and roll back services running on the Aurora container
+platform. It wraps our internal deployment API and adds guardrails such as
+mandatory approval checks for production environments.
+
+2. SYSTEM REQUIREMENTS
+
+- macOS 13+, Ubuntu 20.04+, or Windows 11 with WSL2
+- 2 GB free disk space
+- An active company SSO account with the "platform-user" group
+- Python 3.10 or later (Aurora CLI is distributed as a Python wheel)
+
+3. QUICK START
+
+Step 1: Install the tool
+    pip install aurora-cli --index-url https://pkg.internal.example.com/simple
+
+Step 2: Authenticate
+    aurora login
+This opens a browser window for SSO authentication. Tokens are cached in
+~/.aurora/credentials.json and are valid for 12 hours.
+
+Step 3: Verify the install
+    aurora --version
+Expected output: "aurora-cli 3.4.1"
+
+Step 4: List your accessible projects
+    aurora projects list
+
+Step 5: Deploy your first service
+    aurora deploy --project my-project --service hello-world --env staging
+
+4. CONFIGURATION FILE
+
+Aurora CLI reads settings from aurora.config.yaml in the current directory,
+falling back to ~/.aurora/config.yaml. Key fields:
+
+    default_project: string   # project used when --project is omitted
+    default_env: string       # one of: dev, staging, prod
+    output_format: string     # "table" (default) or "json"
+    timeout_seconds: integer  # deploy timeout, default 300
+
+5. GETTING HELP
+
+Run `aurora help <command>` for details on any subcommand, or post in the
+#aurora-cli Slack channel. Bug reports go to the PLATFORM-CLI project in the
+internal issue tracker.
